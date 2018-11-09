@@ -26,4 +26,9 @@ class ResearchService
 			return null;
 		}
 	}
+
+	public static function getAll()
+	{
+		return (new ResearchRepository())->getAll();
+	}
 }

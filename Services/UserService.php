@@ -23,6 +23,12 @@ class UserService
 		return $userRepo->assignStudentToProject($postData->studentId, $postData->professorId);
 	}
 
+	public static function getStudentData($postData)
+	{
+		$userRepo = new UserRepository();
+		return $userRepo->getStudentData($postData->studentId);
+	}
+
 	public static function get($userId)
 	{
 		$userData = (new UserRepository())->get($userId);

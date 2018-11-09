@@ -18,7 +18,7 @@ class DB
 		$stmt->execute($params);
 	}
 
-	public function get($sql, $params, $userClass = null)
+	public function get($sql, $params = [], $userClass = null)
 	{
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute($params);

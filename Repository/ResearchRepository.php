@@ -33,4 +33,14 @@ class ResearchRepository
 		$db->close();
 		return $results;
 	}
+
+	public function getAll()
+	{
+		$sql = "SELECT * FROM research";
+		$db = new DB();
+		$db->open();
+		$results = $db->get($sql, [], Research::class);
+		$db->close();
+		return $results;
+	}
 }

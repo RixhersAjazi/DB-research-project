@@ -40,4 +40,15 @@ class UserRepository
 		$db->close();
 		return $results;
 	}
+
+	public function getStudentData($studentId)
+	{
+		$sql = "SELECT users.id as userId, users.username as username, users.role as role, studentMeta.searching as searching, studentMeta.interests as interests FROM users WHERE id = :id AND role = 'student' INNER JOIN studentMeta ON studentMeta.id = users.id";
+		$db = new DB();
+		$db->open();
+		$results = $db->get($sql, [':id' => $studentId]);
+		$db->close();
+		return $results;
+	}
+
 }

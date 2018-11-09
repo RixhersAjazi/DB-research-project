@@ -16,4 +16,10 @@ if ($_SERVER['REQUEST_URI'] === '/api/user/create') {
 } else if ($_SERVER['REQUEST_URI'] === '/api/user/assignStudent') {
 	require_once __DIR__ . '/api/user/assignStudent.php';
 	main($_GET['researchId']);
+} else if ($_SERVER['REQUEST_URI'] === '/api/research/getAll') {
+	require_once __DIR__ . '/api/research/getAll.php';
+	main();
+} else if ($_SERVER['REQUEST_URI'] === '/api/user/getStudent') {
+	require_once __DIR__ . '/api/user/getStudent.php';
+	main();
 }

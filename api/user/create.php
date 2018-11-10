@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../apiPostHeader.php';
 
+/**
+ * Sets up HTTP response when creating user
+ */
 function main($postData)
 {
 	$dataObj = new JsonDataObject();

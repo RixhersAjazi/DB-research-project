@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Auto loads files to be called by the index
+ */
+
 if (!function_exists('__autoload')) {
 	function __autoload($classname) {
 		@include_once("./$classname.php");

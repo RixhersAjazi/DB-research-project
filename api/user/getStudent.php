@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../apiGetHeader.php';
 
+/**
+ * Sets up HTTP response when getting data for a student
+ */
 function main($userId)
 {
 	$user = UserService::getStudentData($userId);

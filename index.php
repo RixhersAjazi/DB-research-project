@@ -1,6 +1,10 @@
 <?php
 require_once __DIR__ . 'autoload.php';
 
+/**
+ * Hooks up autoloader to api calls
+ */
+
 if ($_SERVER['REQUEST_URI'] === '/api/user/create') {
 	require_once __DIR__ . '/api/user/create.php';
 	main(JsonDataObject::getData());

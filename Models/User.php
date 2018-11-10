@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * User class. Users have a username, email, and password tied to the 
+ * account.
+ * Also has a role which differentiates between students and faculty.
+ */
 class User implements Validator, ArrayAble
 {
 	private $user;
@@ -15,6 +19,9 @@ class User implements Validator, ArrayAble
 		$this->role = $data->role ?: null;
 	}
 
+  /**
+   * Checks if the user's properties align with the table constraints
+   */
 	public function isValid()
 	{
 		if (!isset($this->user) || !isset($this->password) || !isset($this->role) || !isset($this->email)) {
@@ -42,6 +49,7 @@ class User implements Validator, ArrayAble
 
 	/**
 	 * @return mixed
+   * Gets username
 	 */
 	public function getUser()
 	{
@@ -50,6 +58,7 @@ class User implements Validator, ArrayAble
 
 	/**
 	 * @return null
+   * Gets user email
 	 */
 	public function getEmail()
 	{
@@ -58,6 +67,7 @@ class User implements Validator, ArrayAble
 
 	/**
 	 * @return null
+   * Gets user password
 	 */
 	public function getPassword()
 	{
@@ -66,12 +76,16 @@ class User implements Validator, ArrayAble
 
 	/**
 	 * @return null
+   * Gets user role (faculty or student)
 	 */
 	public function getRole()
 	{
 		return $this->role;
 	}
 
+  /**
+   * Returns user's properties as an array
+   */
 	public function getArray()
 	{
 		return

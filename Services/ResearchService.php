@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * Class for users that is called by the API to call the repo methods to
+ * interact with the database
+ */
+
 class ResearchService
 {
+  /**
+   * For create
+   */
 	public static function create($postData)
 	{
 		$research = new Research($postData);
@@ -16,7 +24,9 @@ class ResearchService
 			return null;
 		}
 	}
-
+  /**
+   * For get
+   */
 	public static function get($researchId)
 	{
 		$researchData = (new ResearchRepository())->get($researchId);
@@ -27,6 +37,9 @@ class ResearchService
 		}
 	}
 
+  /**
+   * For get all
+   */
 	public static function getAll()
 	{
 		return (new ResearchRepository())->getAll();

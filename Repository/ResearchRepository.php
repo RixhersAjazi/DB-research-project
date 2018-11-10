@@ -1,10 +1,17 @@
 <?php
 
+/**
+ * Class for mapping research objects into the database.
+ */
 class ResearchRepository
 {
 	/**
 	 * @param Research $research
 	 */
+
+  /**
+   * Inserts into the database based on a research object
+   */
 	public function create($research)
 	{
 		$sql = "INSERT INTO research (`professor_id`, `name`, `description`, `category`, `results`) VALUES (:prof, :name, :desc, :cat, :res)";
@@ -22,8 +29,11 @@ class ResearchRepository
 		);
 		$db->close();
 		return true;
-	}
-
+  }
+  
+  /**
+   * Gets all data of one research based on its ID
+   */
 	public function get($researchId)
 	{
 		$sql = "SELECT * FROM research WHERE id = :id";
@@ -34,6 +44,9 @@ class ResearchRepository
 		return $results;
 	}
 
+  /**
+   * Gets data for all research in database
+   */
 	public function getAll()
 	{
 		$sql = "SELECT * FROM research";

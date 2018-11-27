@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Research class. Has a unique ID, and is tied to a unique 
+ * professor user. Also has information such as name, description,
+ * category of research, and results of research.
+ */
 class Research implements Validator, ArrayAble
 {
 	private $researchId;
@@ -19,6 +24,9 @@ class Research implements Validator, ArrayAble
 		$this->results = $data->results ?: "";
 	}
 
+  /**
+   * Checks if the research properties align with the table constraints
+   */
 	public function isValid()
 	{
 //		if (!isset($this->user) || !isset($this->password) || !isset($this->role) || !isset($this->email)) {
@@ -46,6 +54,7 @@ class Research implements Validator, ArrayAble
 
 	/**
 	 * @return mixed
+   * Returns research ID
 	 */
 	public function getResearchId()
 	{
@@ -54,6 +63,7 @@ class Research implements Validator, ArrayAble
 
 	/**
 	 * @return mixed
+   * Returns ID of the professor tied to the project
 	 */
 	public function getProfessorId()
 	{
@@ -62,6 +72,7 @@ class Research implements Validator, ArrayAble
 
 	/**
 	 * @return string
+   * Returns name of research project
 	 */
 	public function getName()
 	{
@@ -70,6 +81,7 @@ class Research implements Validator, ArrayAble
 
 	/**
 	 * @return string
+   * Returns project description
 	 */
 	public function getDescription()
 	{
@@ -78,6 +90,7 @@ class Research implements Validator, ArrayAble
 
 	/**
 	 * @return int
+   * Returns category
 	 */
 	public function getCategory()
 	{
@@ -86,18 +99,22 @@ class Research implements Validator, ArrayAble
 
 	/**
 	 * @return string
+   * Returns results of research
 	 */
 	public function getResults()
 	{
 		return $this->results;
 	}
 
+  /**
+   * Returns properties as an array
+   */
 	public function getArray()
 	{
 		return
 			[
 				'researchId' => $this->researchId,
-				'profesorId' => $this->professorId,
+				'professorId' => $this->professorId,
 				'name' => $this->name,
 				'description' => $this->description,
 				'category' => $this->category,

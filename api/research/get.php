@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../apiGetHeader.php';
 
+/**
+ * Sets up HTTP response when getting data
+ */
 function main($researchId)
 {
 	$research = ResearchService::get($researchId);

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../autoload.php';
 require_once __DIR__ . '/../apiPostHeader.php';
 
 /**
@@ -22,3 +23,6 @@ function main($postData)
 		$dataObj->createResponse(['error' => 'Invalid post data']);
 	}
 }
+
+$postData = JsonDataObject::getData();
+main($postData);

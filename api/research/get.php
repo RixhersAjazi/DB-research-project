@@ -1,4 +1,5 @@
 <?php
+require_once  __DIR__. '/../../autoload.php';
 require_once __DIR__ . '/../apiGetHeader.php';
 
 /**
@@ -16,3 +17,5 @@ function main($researchId)
 		JsonDataObject::createResponse(['error' => 'That user does not exist']);
 	}
 }
+
+main($_GET['researchId']);

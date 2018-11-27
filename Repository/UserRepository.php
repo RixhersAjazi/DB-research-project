@@ -66,5 +66,4 @@ class UserRepository
 		$db->close();
 		return $results;
 	}
-
 }

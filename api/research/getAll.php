@@ -16,3 +16,5 @@ function main()
 		JsonDataObject::createResponse(['error' => 'That user does not exist']);
 	}
 }
+
+main();

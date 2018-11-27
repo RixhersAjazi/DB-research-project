@@ -1,4 +1,6 @@
 <?php
+
+require_once  __DIR__. '/../../autoload.php';
 require_once __DIR__ . '/../apiGetHeader.php';
 
 /**
@@ -16,3 +18,5 @@ function main($userId)
 		JsonDataObject::createResponse(['error' => 'Cant retrieve response']);
 	}
 }
+
+main($_GET['userId']);

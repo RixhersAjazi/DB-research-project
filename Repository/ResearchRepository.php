@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . './DB.php';
+
 /**
  * Class for mapping research objects into the database.
  */

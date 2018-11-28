@@ -1,5 +1,8 @@
 <?php
 
+require_once __DIR__ . '/../Repository/ResearchRepository.php';
+require_once __DIR__ . '/../Exceptions/InvalidDataException.php';
+
 /**
  * Class for users that is called by the API to call the repo methods to
  * interact with the database

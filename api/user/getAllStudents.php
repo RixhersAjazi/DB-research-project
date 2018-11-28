@@ -4,19 +4,18 @@ require_once __DIR__ . '/../../Lib/JsonDataObject.php';
 require_once __DIR__ . '/../apiGetHeader.php';
 
 /**
- * Sets up HTTP response when getting user data
+ * Sets up HTTP response when getting all data
  */
-function main($userId)
+function main()
 {
-	$user = UserService::get($userId);
-
-	if (!is_null($user)) {
-		http_response_code(200);
-		JsonDataObject::createResponse($user);
+	$allStudents = UserService::getAllStudents();
+	if (!is_null($allStudents)) {
+		http_response_code(201);
+		JsonDataObject::createResponse($allStudents);
 	} else {
 		http_response_code(200);
 		JsonDataObject::createResponse(['error' => 'That user does not exist']);
 	}
 }
 
-main($_GET['userId']);
+main();

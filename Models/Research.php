@@ -1,5 +1,8 @@
 <?php
 
+require_once __DIR__ . '/../Models/Validator.php';
+require_once __DIR__ . '/../Models/ArrayAble.php';
+
 /**
  * Research class. Has a unique ID, and is tied to a unique 
  * professor user. Also has information such as name, description,

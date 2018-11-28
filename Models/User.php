@@ -1,4 +1,8 @@
 <?php
+
+require_once __DIR__ . '/../Models/Validator.php';
+require_once __DIR__ . '/../Models/ArrayAble.php';
+
 /**
  * User class. Users have a username, email, and password tied to the 
  * account.
@@ -7,14 +11,12 @@
 class User implements Validator, ArrayAble
 {
 	private $user;
-	private $email;
 	private $password;
 	private $role;
 
 	public function __construct($data)
 	{
-		$this->user = $data->user;
-		$this->email = $data->email ?: null;
+		$this->user = $data->username;
 		$this->password = $data->password ?: null;
 		$this->role = $data->role ?: null;
 	}
@@ -91,7 +93,6 @@ class User implements Validator, ArrayAble
 		return
 		[
 			'user' => $this->user,
-			'email' => $this->email,
 			'role' => $this->role,
 			'password' => '****'
 		];

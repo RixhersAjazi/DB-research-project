@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/DB.php';
+
 /**
  * Class for mapping user objects to the databases
  */
@@ -59,10 +61,47 @@ class UserRepository
    */
 	public function getStudentData($studentId)
 	{
-		$sql = "SELECT users.id as userId, users.username as username, users.role as role, studentMeta.searching as searching, studentMeta.interests as interests FROM users WHERE id = :id AND role = 'student' INNER JOIN studentMeta ON studentMeta.id = users.id";
+		$sql = "
+					SELECT 
+						users.id as userId, 
+						users.username as username, 
+						users.role as role, 
+						studentMeta.searching as searching, 
+						studentMeta.interests as interests, 
+						studentRatings.rating as rating,
+						studentMeta.bio as bio,
+						studentMeta.gradDate as gradDate
+					FROM users 
+					LEFT JOIN studentMeta ON studentMeta.id = users.id
+					LEFT JOIN studentRatings ON studentRatings.student_id = users.id
+					WHERE users.id = :id AND role = 'student';";
 		$db = new DB();
 		$db->open();
 		$results = $db->get($sql, [':id' => $studentId]);
+		$db->close();
+		return $results;
+	}
+
+	public function getAllStudents()
+	{
+		$sql = "
+					SELECT 
+						users.id as userId, 
+						users.username as username, 
+						users.role as role, 
+						studentMeta.searching as searching, 
+						studentMeta.interests as interests, 
+						studentRatings.rating as rating,
+						studentMeta.bio as bio,
+						studentMeta.gradDate as gradDate
+					FROM users 
+					LEFT JOIN studentMeta ON studentMeta.id = users.id
+					LEFT JOIN studentRatings ON studentRatings.student_id = users.id
+					WHERE role = 'student';";
+
+		$db = new DB();
+		$db->open();
+		$results = $db->getAll($sql);
 		$db->close();
 		return $results;
 	}

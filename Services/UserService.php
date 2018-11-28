@@ -1,5 +1,9 @@
 <?php
 
+require_once __DIR__ . '/../Repository/UserRepository.php';
+require_once __DIR__ . '/../Models/User.php';
+require_once __DIR__ . '/../Exceptions/InvalidDataException.php';
+
 /**
  * Class for users that is called by the API to call the repo methods to
  * interact with the database
@@ -37,10 +41,10 @@ class UserService
   /**
    * For getting student only data
    */
-	public static function getStudentData($postData)
+	public static function getStudentData($userId)
 	{
 		$userRepo = new UserRepository();
-		return $userRepo->getStudentData($postData->studentId);
+		return $userRepo->getStudentData($userId);
   }
   
   /**
@@ -54,5 +58,24 @@ class UserService
 		} else {
 			return null;
 		}
+	}
+
+	public static function getAllStudents()
+	{
+		$studentRecords = (new UserRepository())->getAllStudents();
+		$students = [];
+
+		if (!is_null($studentRecords)) {
+			/**
+			 * @var User $record
+			 */
+			foreach ($studentRecords as $index => $records) {
+				$students[] = $records;
+			}
+
+			return $students;
+		}
+
+		return null;
 	}
 }

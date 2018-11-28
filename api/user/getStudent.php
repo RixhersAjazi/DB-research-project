@@ -1,6 +1,7 @@
 <?php
 
-require_once  __DIR__. '/../../autoload.php';
+require_once __DIR__ . '/../../Services/UserService.php';
+require_once __DIR__ . '/../../Lib/JsonDataObject.php';
 require_once __DIR__ . '/../apiGetHeader.php';
 
 /**
@@ -19,4 +20,4 @@ function main($userId)
 	}
 }
 
-main($_GET['userId']);
+main($_GET['studentId']);

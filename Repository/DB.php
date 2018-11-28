@@ -34,6 +34,14 @@ class DB
 		return $stmt->fetchObject($userClass);
 	}
 
+	// Prepares and executes statement to retrieve data
+	public function getAll($sql, $params = [])
+	{
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute($params);
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
   // Closes database
 	public function close()
 	{

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . './DB.php';
+require_once __DIR__ . '/DB.php';
 
 /**
  * Class for mapping research objects into the database.
@@ -54,7 +54,7 @@ class ResearchRepository
 		$sql = "SELECT * FROM research";
 		$db = new DB();
 		$db->open();
-		$results = $db->get($sql, [], Research::class);
+		$results = $db->getAll($sql);
 		$db->close();
 		return $results;
 	}

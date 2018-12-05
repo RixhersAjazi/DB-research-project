@@ -34,7 +34,7 @@ class ResearchService
 	{
 		$researchData = (new ResearchRepository())->get($researchId);
 		if (!is_null($researchData)) {
-			return (new User($researchData))->getArray();
+			return (new Research($researchData))->getArray();
 		} else {
 			return null;
 		}
@@ -45,6 +45,21 @@ class ResearchService
    */
 	public static function getAll()
 	{
-		return (new ResearchRepository())->getAll();
+		$researchRecords = (new ResearchRepository())->getAll();
+
+		$research = [];
+
+		if (!is_null($researchRecords)) {
+			/**
+			 * @var User $record
+			 */
+			foreach ($researchRecords as $index => $records) {
+				$research[] = $records;
+			}
+
+			return $research;
+		}
+
+		return null;
 	}
 }

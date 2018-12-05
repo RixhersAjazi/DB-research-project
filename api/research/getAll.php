@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . '/../../Services/ResearchService.php';
+require_once __DIR__ . '/../../Lib/JsonDataObject.php';
 require_once __DIR__ . '/../apiGetHeader.php';
 
 /**

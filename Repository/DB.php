@@ -12,7 +12,7 @@ class DB
   // Opens connection
 	public function open()
 	{
-		$this->db = new PDO('mysql:dbname=research_db;host=8.41.72.142;', 'root', 'rix');
+		$this->db = new PDO('mysql:dbname=iste330t23;host=localhost;', 'iste330t23', 'delightteacher');
 	}
 
   // Prepares and executes statement to insert new data

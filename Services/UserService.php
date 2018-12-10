@@ -48,7 +48,7 @@ class UserService
 	public static function assignStudentToProject($postData)
 	{
 		$userRepo = new UserRepository();
-		return $userRepo->assignStudentToProject($postData['studentId'], $postData['professorId']);
+		return $userRepo->assignStudentToProject($postData['studentId'], $postData['researchId']);
     }
   
   /**

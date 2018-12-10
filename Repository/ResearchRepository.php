@@ -52,6 +52,7 @@ class ResearchRepository
 	public function getAll()
 	{
 		$sql = "SELECT 
+					research.research_id as researchId,
 					users.name as professor, 
 					research.name as name, 
 					research.description, 

@@ -29,7 +29,7 @@ class User implements Validator, ArrayAble
 			$this->password = $data['password'];
 			$this->role = $data['role'];
 			$this->name = $data['name'];
-			$this->id = $data['id'] ?: 0;
+			$this->id = array_key_exists('id', $data) ?: 0;
 		}
 	}
 
@@ -55,6 +55,22 @@ class User implements Validator, ArrayAble
 		}
 
 		return true;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * @param int $id
+	 */
+	public function setId($id)
+	{
+		$this->id = $id;
 	}
 
 	/**

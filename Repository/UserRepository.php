@@ -23,6 +23,25 @@ class UserRepository
 			$sql,
 			[':username' => $user->getUser(), ':password' => password_hash($user->getPassword(), PASSWORD_DEFAULT), ':role' => $user->getRole(), ':name' => $user->getName()]
 		);
+
+		if ($user->getRole() === 'student') {
+			$sql = "INSERT INTO studentMeta (`id`) VALUES (:id)";
+			$db = new DB();
+			$db->open();
+			$db->execute(
+				$sql,
+				[':id' => $user->getId()]
+			);
+
+			$sql = "INSERT INTO studentRatings (`studentId`) VALUES (:id)";
+			$db = new DB();
+			$db->open();
+			$db->execute(
+				$sql,
+				[':id' => $user->getId()]
+			);
+		}
+
 		$db->close();
 		return true;
 	}
@@ -118,7 +137,12 @@ class UserRepository
 		$db->open();
 		$results = $db->get($sql, [':id' => $userId]);
 		$db->close();
-		return json_decode($results->interests);
+
+		if (isset($results->interests)) {
+			return json_decode($results->interests);
+		}
+
+		return [];
 	}
 
 	public function getAllStudents()
@@ -127,7 +151,8 @@ class UserRepository
 					SELECT 
 						users.id as userId, 
 						users.username as username, 
-						users.role as role, 
+						users.role as role,
+						users.name as name,  
 						studentMeta.searching as searching, 
 						studentMeta.interests as interests, 
 						studentRatings.rating as rating,

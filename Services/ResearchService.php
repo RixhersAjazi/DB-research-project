@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../Repository/ResearchRepository.php';
+require_once __DIR__ . '/../Models/Research.php';
 require_once __DIR__ . '/../Exceptions/InvalidDataException.php';
 
 /**
@@ -16,13 +17,15 @@ class ResearchService
 	public static function create($postData)
 	{
 		$research = new Research($postData);
-		if (!$research->isValid()) {
-			throw new InvalidDataException();
-		}
+//		if (!$research->isValid()) {
+//			throw new InvalidDataException();
+//		}
 
 		$researchRepo = new ResearchRepository();
 		if ($researchRepo->create($research) !== false) {
-			return $research->getArray();
+			$rtn = $research->getArray();
+			unset($rtn['researchId']);
+			return $rtn;
 		} else {
 			return null;
 		}
@@ -47,14 +50,14 @@ class ResearchService
 	{
 		$researchRecords = (new ResearchRepository())->getAll();
 
-		$research = [];
+		$research = new stdClass();
 
 		if (!is_null($researchRecords)) {
 			/**
 			 * @var User $record
 			 */
 			foreach ($researchRecords as $index => $records) {
-				$research[] = $records;
+				$research->data[] = $records;
 			}
 
 			return $research;

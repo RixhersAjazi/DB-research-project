@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../Repository/UserRepository.php';
+require_once __DIR__ . '/../Lib/Session.php';
 require_once __DIR__ . '/../Models/User.php';
 require_once __DIR__ . '/../Exceptions/InvalidDataException.php';
 
@@ -11,6 +12,18 @@ require_once __DIR__ . '/../Exceptions/InvalidDataException.php';
 
 class UserService
 {
+	public static function logUserIn($postData)
+	{
+		$user = self::getByUsername($postData['username']);
+
+		if ($user != null && password_verify($postData['password'], $user['password'])) {
+			(new Session())::login();
+			return $user['id'];
+		}
+
+		return false;
+	}
+
   /**
    * For create
    */
@@ -35,16 +48,21 @@ class UserService
 	public static function assignStudentToProject($postData)
 	{
 		$userRepo = new UserRepository();
-		return $userRepo->assignStudentToProject($postData->studentId, $postData->professorId);
-  }
+		return $userRepo->assignStudentToProject($postData['studentId'], $postData['professorId']);
+    }
   
   /**
    * For getting student only data
    */
 	public static function getStudentData($userId)
 	{
+		$returnData = [];
 		$userRepo = new UserRepository();
-		return $userRepo->getStudentData($userId);
+		$returnData['studentData'] = $userRepo->getStudentData($userId);
+		$returnData['research'] = $userRepo->getStudentResearch($userId);
+		$returnData['interests'] = $userRepo->getStudentInterests($userId);
+
+		return $returnData;
   }
   
   /**
@@ -60,6 +78,24 @@ class UserService
 		}
 	}
 
+	/**
+	 * For getting general user data
+	 */
+	public static function getByUsername($username)
+	{
+		$userData = (new UserRepository())->getByUsername($username);
+		if (!is_null($userData)) {
+			return (new User($userData))->getArray();
+		} else {
+			return null;
+		}
+	}
+
+	public static function updateStudent($postData)
+	{
+		return (new UserRepository())->updateStudent($postData['studentId'], $postData['searching'], json_encode($postData['interests']), $postData['bio']);
+	}
+
 	public static function getAllStudents()
 	{
 		$studentRecords = (new UserRepository())->getAllStudents();
@@ -70,7 +106,8 @@ class UserService
 			 * @var User $record
 			 */
 			foreach ($studentRecords as $index => $records) {
-				$students[] = $records;
+				$students[$records['userId']]['studentData'] = $records;
+				$students[$records['userId']]['research'][] = (new UserRepository())->getStudentResearch($records['userId']);
 			}
 
 			return $students;

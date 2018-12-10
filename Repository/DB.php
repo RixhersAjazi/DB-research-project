@@ -16,7 +16,7 @@ class DB
 	}
 
   // Prepares and executes statement to insert new data
-	public function insert($sql, $params, $userClass = null)
+	public function execute($sql, $params, $userClass = null)
 	{
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute($params);

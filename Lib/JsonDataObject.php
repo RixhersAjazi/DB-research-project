@@ -7,7 +7,7 @@ class JsonDataObject
   // Gets JSON data
 	public static function getData()
 	{
-		return json_decode(file_get_contents("php://input"));
+		return json_decode(file_get_contents("php://input"), true);
 	}
   // Creates response from a data array
 	public static function createResponse($responseArray)

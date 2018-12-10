@@ -19,7 +19,7 @@ class ResearchRepository
 		$sql = "INSERT INTO research (`professor_id`, `name`, `description`, `category`, `results`) VALUES (:prof, :name, :desc, :cat, :res)";
 		$db = new DB();
 		$db->open();
-		$db->insert(
+		$db->execute(
 			$sql,
 			[
 				':prof' => $research->getProfessorId(),
@@ -51,7 +51,16 @@ class ResearchRepository
    */
 	public function getAll()
 	{
-		$sql = "SELECT * FROM research";
+		$sql = "SELECT 
+					users.name as professor, 
+					research.name as name, 
+					research.description, 
+					categories.name as categoryName, 
+					research.results 
+				FROM research
+				INNER JOIN users on users.id = research.professor_id
+				INNER JOIN categories ON categories.id = research.category
+				";
 		$db = new DB();
 		$db->open();
 		$results = $db->getAll($sql);

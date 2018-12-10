@@ -13,12 +13,24 @@ class User implements Validator, ArrayAble
 	private $user;
 	private $password;
 	private $role;
+	private $name;
+	private $id;
 
 	public function __construct($data)
 	{
-		$this->user = $data->username;
-		$this->password = $data->password ?: null;
-		$this->role = $data->role ?: null;
+		if ($data instanceof stdClass) {
+			$this->user = $data->username;
+			$this->password = $data->password;
+			$this->role = $data->role;
+			$this->name = $data->name;
+			$this->id = $data->id ?: 0;
+		} else {
+			$this->user = $data['username'];
+			$this->password = $data['password'];
+			$this->role = $data['role'];
+			$this->name = $data['name'];
+			$this->id = $data['id'] ?: 0;
+		}
 	}
 
   /**
@@ -26,7 +38,7 @@ class User implements Validator, ArrayAble
    */
 	public function isValid()
 	{
-		if (!isset($this->user) || !isset($this->password) || !isset($this->role) || !isset($this->email)) {
+		if (!isset($this->user) || !isset($this->password) || !isset($this->role) || !isset($this->name)) {
 			return false;
 		}
 
@@ -39,10 +51,6 @@ class User implements Validator, ArrayAble
 		}
 
 		if (!is_string($this->role) || !in_array($this->role, ['prof', 'student'])) {
-			return false;
-		}
-
-		if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
 			return false;
 		}
 
@@ -60,11 +68,18 @@ class User implements Validator, ArrayAble
 
 	/**
 	 * @return null
-   * Gets user email
 	 */
-	public function getEmail()
+	public function getName()
 	{
-		return $this->email;
+		return $this->name;
+	}
+
+	/**
+	 * @param null $name
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 	}
 
 	/**
@@ -94,7 +109,9 @@ class User implements Validator, ArrayAble
 		[
 			'user' => $this->user,
 			'role' => $this->role,
-			'password' => '****'
+			'name' => $this->name,
+			'password' => $this->password,
+			'id' => $this->id
 		];
 	}
 }

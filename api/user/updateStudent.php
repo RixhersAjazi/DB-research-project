@@ -11,8 +11,8 @@ function main($postData)
 {
 	$session = new Session();
 	$dataObj = new JsonDataObject();
-	//if ($session::isLoggedIn()) {
-		if (UserService::assignStudentToProject($postData)) {
+//	if ($session::isLoggedIn()) {
+		if (UserService::updateStudent($postData)) {
 			http_response_code(201);
 		} else {
 			http_response_code(500);

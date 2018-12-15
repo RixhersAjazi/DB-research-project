@@ -68,4 +68,14 @@ class ResearchRepository
 		$db->close();
 		return $results;
 	}
+
+	public function delete($researchId)
+	{
+		$sql = "DELETE FROM research WHERE research_id = :id";
+		$db = new DB();
+		$db->open();
+		$db->execute($sql, [':id' => $researchId]);
+		$db->close();
+		return true;
+	}
 }

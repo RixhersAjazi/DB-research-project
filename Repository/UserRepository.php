@@ -46,6 +46,16 @@ class UserRepository
 		return true;
 	}
 
+	public function delete($userId)
+	{
+		$sql = "DELETE FROM users WHERE id = :id";
+		$db = new DB();
+		$db->open();
+		$db->execute($sql, [':id' => $userId]);
+		$db->close();
+		return true;
+	}
+
 	public function getByUsername($username)
 	{
 		$sql = "SELECT * FROM users WHERE username = :username";
@@ -162,6 +172,24 @@ class UserRepository
 					LEFT JOIN studentMeta ON studentMeta.id = users.id
 					LEFT JOIN studentRatings ON studentRatings.student_id = users.id
 					WHERE role = 'student';";
+
+		$db = new DB();
+		$db->open();
+		$results = $db->getAll($sql);
+		$db->close();
+		return $results;
+	}
+
+	public function getAllProfessors()
+	{
+		$sql = "
+				SELECT
+					id,
+					username,
+					name
+				FROM users 
+				WHERE role = 'prof';
+		";
 
 		$db = new DB();
 		$db->open();

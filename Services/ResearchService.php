@@ -65,4 +65,10 @@ class ResearchService
 
 		return null;
 	}
+
+	public static function delete($deleteData)
+	{
+		$resRepo = new ResearchRepository();
+		return $resRepo->delete($deleteData['researchId']);
+	}
 }

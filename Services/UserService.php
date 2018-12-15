@@ -41,6 +41,12 @@ class UserService
 			return null;
 		}
   }
+
+  public static function delete($deleteData)
+  {
+  	$userRepo = new UserRepository();
+  	return $userRepo->delete($deleteData['userId']);
+  }
   
   /**
    * For assigning to project
@@ -64,6 +70,20 @@ class UserService
 
 		return $returnData;
   }
+
+	/**
+	 * For getting student only data
+	 */
+	public static function getProfes($userId)
+	{
+		$returnData = [];
+		$userRepo = new UserRepository();
+		$returnData['studentData'] = $userRepo->getStudentData($userId);
+		$returnData['research'] = $userRepo->getStudentResearch($userId);
+		$returnData['interests'] = $userRepo->getStudentInterests($userId);
+
+		return $returnData;
+	}
   
   /**
    * For getting general user data
@@ -111,6 +131,25 @@ class UserService
 			}
 
 			return $students;
+		}
+
+		return null;
+	}
+
+	public static function getAllProfessors()
+	{
+		$profRecoords = (new UserRepository())->getAllProfessors();
+		$prof = [];
+
+		if (!is_null($profRecoords)) {
+			/**
+			 * @var User $record
+			 */
+			foreach ($profRecoords as $index => $records) {
+				$prof[$records['id']]['prof'] = $records;
+			}
+
+			return $prof;
 		}
 
 		return null;

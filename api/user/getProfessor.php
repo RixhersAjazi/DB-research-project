@@ -7,9 +7,9 @@ require_once __DIR__ . '/../apiGetHeader.php';
 /**
  * Sets up HTTP response when getting data for a student
  */
-function main($userId)
+function main($profId)
 {
-	$user = UserService::getStudentData($userId);
+	$user = UserService::getProfes($profId);
 
 	if (!is_null($user)) {
 		http_response_code(200);
@@ -20,4 +20,4 @@ function main($userId)
 	}
 }
 
-main($_GET['studentId']);
+main($_GET['professorId']);

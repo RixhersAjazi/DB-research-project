@@ -8,13 +8,13 @@ require_once __DIR__ . '/../apiGetHeader.php';
  */
 function main()
 {
-	$allStudents = UserService::getAllProfessors();
-	if (!is_null($allStudents)) {
+	$allProfs = UserService::getAllProfessors();
+	if (!is_null($allProfs)) {
 		http_response_code(201);
-		JsonDataObject::createResponse($allStudents);
+		JsonDataObject::createResponse($allProfs);
 	} else {
 		http_response_code(200);
-		JsonDataObject::createResponse(['error' => 'That user does not exist']);
+		JsonDataObject::createResponse(['error' => 'Could not process requests']);
 	}
 }
 

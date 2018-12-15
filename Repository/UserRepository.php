@@ -66,6 +66,16 @@ class UserRepository
 		return $results;
 	}
 
+	public function getById($userId)
+	{
+		$sql = "SELECT * FROM users WHERE id = :id";
+		$db = new DB();
+		$db->open();
+		$results = $db->get($sql, [':id' => $userId]);
+		$db->close();
+		return $results;
+	}
+
   /**
    * Connects a student and project based on passed in IDs
    */
@@ -136,6 +146,23 @@ class UserRepository
 		$db = new DB();
 		$db->open();
 		$results = $db->getAll($sql, [':id' => $studentId]);
+		$db->close();
+		return $results;
+	}
+
+	public function getResearch($profId)
+	{
+		$sql = "
+					SELECT 
+					  	research.name as researchName,
+					  	research.description as researchDescription,
+					  	research.category as researchCategory,
+					  	research.results as researchResults
+					FROM research
+					WHERE professor_id = :id;";
+		$db = new DB();
+		$db->open();
+		$results = $db->getAll($sql, [':id' => $profId]);
 		$db->close();
 		return $results;
 	}

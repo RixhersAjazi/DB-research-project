@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../Repository/ResearchRepository.php';
+require_once __DIR__ . '/../Repository/UserRepository.php';
 require_once __DIR__ . '/../Models/Research.php';
 require_once __DIR__ . '/../Exceptions/InvalidDataException.php';
 
@@ -57,7 +58,8 @@ class ResearchService
 			 * @var User $record
 			 */
 			foreach ($researchRecords as $index => $records) {
-				$research->data[] = $records;
+				$research->data[$records['researchId']]['data'] = $records;
+				$research->data[$records['researchId']]['students'] = (new UserRepository())->getResearchStudent($records['researchId']);
 			}
 
 			return $research;

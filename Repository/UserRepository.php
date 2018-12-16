@@ -16,29 +16,27 @@ class UserRepository
     */
 	public function create($user)
 	{
-		$sql = "INSERT INTO users (`username`, `password`, `role`, `name`) VALUES (:username, :password, :role, :name)";
+		$sql = "INSERT INTO users (`username`, `password`, `role`, `name`, `email`) VALUES (:username, :password, :role, :name, :email)";
 		$db = new DB();
 		$db->open();
 		$db->execute(
 			$sql,
-			[':username' => $user->getUser(), ':password' => password_hash($user->getPassword(), PASSWORD_DEFAULT), ':role' => $user->getRole(), ':name' => $user->getName()]
+			[':username' => $user->getUser(), ':password' => password_hash($user->getPassword(), PASSWORD_DEFAULT), ':role' => $user->getRole(), ':name' => $user->getName(), ':email' => $user->getEmail()]
 		);
+
+		$lastInsertId = $db->lastInsertId();
 
 		if ($user->getRole() === 'student') {
 			$sql = "INSERT INTO studentMeta (`id`) VALUES (:id)";
-			$db = new DB();
-			$db->open();
 			$db->execute(
 				$sql,
-				[':id' => $user->getId()]
+				[':id' => $lastInsertId]
 			);
 
-			$sql = "INSERT INTO studentRatings (`studentId`) VALUES (:id)";
-			$db = new DB();
-			$db->open();
+			$sql = "INSERT INTO studentRatings (`student_Id`) VALUES (:id)";
 			$db->execute(
 				$sql,
-				[':id' => $user->getId()]
+				[':id' => $lastInsertId]
 			);
 		}
 
@@ -116,6 +114,7 @@ class UserRepository
 						users.username as username, 
 						users.role as role, 
 					  	users.name as name,
+					  	users.email as email,
 						studentMeta.searching as searching,  
 						studentRatings.rating as rating,
 						studentMeta.bio as bio,
@@ -146,6 +145,26 @@ class UserRepository
 		$db = new DB();
 		$db->open();
 		$results = $db->getAll($sql, [':id' => $studentId]);
+		$db->close();
+		return $results;
+	}
+
+	public function getResearchStudent($researchId)
+	{
+		$sql = "
+				SELECT
+					users.name as name,
+					users.username as username,
+					users.email as email,
+					users.id as id
+				FROM users
+				LEFT JOIN assignedProjects ON assignedProjects.student_id = users.id
+				WHERE assignedProjects.research_id = :researchId;
+		";
+
+		$db = new DB();
+		$db->open();
+		$results = $db->getAll($sql, [':researchId' => $researchId]);
 		$db->close();
 		return $results;
 	}
@@ -190,6 +209,7 @@ class UserRepository
 						users.username as username, 
 						users.role as role,
 						users.name as name,  
+						users.email as email,
 						studentMeta.searching as searching, 
 						studentMeta.interests as interests, 
 						studentRatings.rating as rating,
@@ -213,7 +233,8 @@ class UserRepository
 				SELECT
 					id,
 					username,
-					name
+					name,
+					email
 				FROM users 
 				WHERE role = 'prof';
 		";
@@ -225,7 +246,7 @@ class UserRepository
 		return $results;
 	}
 
-	public function updateStudent($userId, $searching, $interests, $bio)
+	public function updateStudent($userId, $searching, $interests, $bio, $email)
 	{
 		$sql = "
 			UPDATE studentMeta SET `searching` = :searching, `interests` = :interests, `bio` = :bio WHERE id = :id
@@ -234,6 +255,9 @@ class UserRepository
 		$db = new DB();
 		$db->open();
 		$db->execute($sql, [':id' => $userId, ':searching' => $searching, ':interests' => $interests, ':bio' => $bio]);
+
+		$sql1 = "UPDATE users SET `email` = :email WHERE id =:id AND role = 'student';";
+		$db->execute($sql1, [':id' => $userId, ':email' => $email]);
 		$db->close();
 		return true;
 	}

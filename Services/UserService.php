@@ -112,7 +112,7 @@ class UserService
 
 	public static function updateStudent($postData)
 	{
-		return (new UserRepository())->updateStudent($postData['studentId'], $postData['searching'], json_encode($postData['interests']), $postData['bio']);
+		return (new UserRepository())->updateStudent($postData['studentId'], $postData['searching'], json_encode($postData['interests']), $postData['bio'], $postData['email']);
 	}
 
 	public static function getAllStudents()

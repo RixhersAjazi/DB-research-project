@@ -15,6 +15,11 @@ class DB
 		$this->db = new PDO('mysql:dbname=iste330t23;host=localhost;', 'iste330t23', 'delightteacher');
 	}
 
+	public function lastInsertId()
+	{
+		return $this->db->lastInsertId();
+	}
+
   // Prepares and executes statement to insert new data
 	public function execute($sql, $params, $userClass = null)
 	{

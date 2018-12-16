@@ -4,7 +4,7 @@ require_once __DIR__ . '/../Models/Validator.php';
 require_once __DIR__ . '/../Models/ArrayAble.php';
 
 /**
- * User class. Users have a username, email, and password tied to the 
+ * User class. Users have a username, email, and password tied to the
  * account.
  * Also has a role which differentiates between students and faculty.
  */
@@ -15,27 +15,32 @@ class User implements Validator, ArrayAble
 	private $role;
 	private $name;
 	private $id;
+	private $email;
 
 	public function __construct($data)
 	{
-		if ($data instanceof stdClass) {
-			$this->user = $data->username;
-			$this->password = $data->password;
-			$this->role = $data->role;
-			$this->name = $data->name;
-			$this->id = $data->id ?: 0;
-		} else {
-			$this->user = $data['username'];
-			$this->password = $data['password'];
-			$this->role = $data['role'];
-			$this->name = $data['name'];
-			$this->id = array_key_exists('id', $data) ?: 0;
+		if (!empty($data))  {
+			if ($data instanceof stdClass) {
+				$this->user = $data->username;
+				$this->password = $data->password;
+				$this->role = $data->role;
+				$this->name = $data->name;
+				$this->id = $data->id ?: 0;
+				$this->email = $data->email;
+			} else {
+				$this->user = $data['username'];
+				$this->password = $data['password'];
+				$this->role = $data['role'];
+				$this->name = $data['name'];
+				$this->id = property_exists($data, 'id') ? $data->id : 0;
+				$this->email = $data['email'];
+			}
 		}
 	}
 
-  /**
-   * Checks if the user's properties align with the table constraints
-   */
+	/**
+	 * Checks if the user's properties align with the table constraints
+	 */
 	public function isValid()
 	{
 		if (!isset($this->user) || !isset($this->password) || !isset($this->role) || !isset($this->name)) {
@@ -51,6 +56,10 @@ class User implements Validator, ArrayAble
 		}
 
 		if (!is_string($this->role) || !in_array($this->role, ['prof', 'student'])) {
+			return false;
+		}
+
+		if (!is_string($this->email)) {
 			return false;
 		}
 
@@ -73,9 +82,19 @@ class User implements Validator, ArrayAble
 		$this->id = $id;
 	}
 
+	public function getEmail()
+	{
+		return $this->email;
+	}
+
+	public function setEmail($email)
+	{
+		$this->email = $email;
+	}
+
 	/**
 	 * @return mixed
-   * Gets username
+	 * Gets username
 	 */
 	public function getUser()
 	{
@@ -100,7 +119,7 @@ class User implements Validator, ArrayAble
 
 	/**
 	 * @return null
-   * Gets user password
+	 * Gets user password
 	 */
 	public function getPassword()
 	{
@@ -109,25 +128,26 @@ class User implements Validator, ArrayAble
 
 	/**
 	 * @return null
-   * Gets user role (faculty or student)
+	 * Gets user role (faculty or student)
 	 */
 	public function getRole()
 	{
 		return $this->role;
 	}
 
-  /**
-   * Returns user's properties as an array
-   */
+	/**
+	 * Returns user's properties as an array
+	 */
 	public function getArray()
 	{
 		return
-		[
-			'user' => $this->user,
-			'role' => $this->role,
-			'name' => $this->name,
-			'password' => $this->password,
-			'id' => $this->id
-		];
+			[
+				'user' => $this->user,
+				'role' => $this->role,
+				'name' => $this->name,
+				'password' => $this->password,
+				'id' => $this->id,
+				'email' => $this->email
+			];
 	}
 }

@@ -10,7 +10,6 @@ require_once __DIR__ . '/../apiGetHeader.php';
 function main()
 {
 	$research = ResearchService::getAll();
-
 	if (!is_null($research)) {
 		http_response_code(201);
 		JsonDataObject::createResponse($research);

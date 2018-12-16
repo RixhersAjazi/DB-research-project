@@ -38,7 +38,7 @@ class ResearchRepository
    */
 	public function get($researchId)
 	{
-		$sql = "SELECT * FROM research WHERE id = :id";
+		$sql = "SELECT * FROM research WHERE research_id = :id";
 		$db = new DB();
 		$db->open();
 		$results = $db->get($sql, [':id' => $researchId]);

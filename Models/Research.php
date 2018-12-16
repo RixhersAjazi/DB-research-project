@@ -19,12 +19,23 @@ class Research implements Validator, ArrayAble
 
 	public function __construct($data)
 	{
-		$this->researchId = array_key_exists('research_id', $data) ? $data['research_id'] : 0;
-		$this->professorId = $data['professor_id'];
-		$this->name = $data['name'];
-		$this->description = $data['description'];
-		$this->category = $data['category'];
-		$this->results = isset($data['results']) && is_string($data['results']) && strlen($data['results'] > 0) ? $data['results'] : "";
+		if (!empty($data)) {
+			if ($data instanceof stdClass) {
+				$this->researchId = $data->research_id;
+				$this->professorId = $data->professor_id;
+				$this->name = $data->name;
+				$this->description = $data->description;
+				$this->category = $data->category;
+				$this->results = $data->results;
+			} else {
+				$this->researchId = $data['researchId'];
+				$this->professorId = $data['professorId'];
+				$this->name = $data['name'];
+				$this->description = $data['description'];
+				$this->category = $data['category'];
+				$this->results = $data['results'];
+			}
+		}
 	}
 
   /**

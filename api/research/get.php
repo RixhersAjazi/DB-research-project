@@ -1,6 +1,8 @@
 <?php
-require_once  __DIR__. '/../../autoload.php';
 require_once __DIR__ . '/../apiGetHeader.php';
+require_once __DIR__ . '/../../Lib/JsonDataObject.php';
+require_once __DIR__ . '/../../Services/ResearchService.php';
+
 
 /**
  * Sets up HTTP response when getting data

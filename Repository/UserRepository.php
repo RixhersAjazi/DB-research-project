@@ -134,6 +134,7 @@ class UserRepository
 	{
 		$sql = "
 					SELECT 
+						research.research_id as researchId,
 					  	research.name as researchName,
 					  	research.description as researchDescription,
 					  	research.category as researchCategory,
@@ -173,6 +174,7 @@ class UserRepository
 	{
 		$sql = "
 					SELECT 
+						research.research_id as researchId,
 					  	research.name as researchName,
 					  	research.description as researchDescription,
 					  	research.category as researchCategory,

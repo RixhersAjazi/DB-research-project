@@ -14,6 +14,7 @@ function main($postData)
 	//if ($session::isLoggedIn()) {
 		if (UserService::assignStudentToProject($postData)) {
 			http_response_code(201);
+			$dataObj->createResponse(['success' => 'Student assigned']);
 		} else {
 			http_response_code(500);
 			$dataObj->createResponse(['error' => 'Could not process this request']);

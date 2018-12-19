@@ -79,7 +79,7 @@ class UserService
 		$returnData = [];
 		$userRepo = new UserRepository();
 		$returnData['profData'] = $userRepo->getById($userId);
-		$returnData['research'] = $userRepo->getResearch($userId, 'prof');
+		$returnData['research'] = $userRepo->getResearch($userId);
 
 		return $returnData;
 	}

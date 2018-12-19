@@ -18,9 +18,9 @@ class ResearchService
 	public static function create($postData)
 	{
 		$research = new Research($postData);
-//		if (!$research->isValid()) {
-//			throw new InvalidDataException();
-//		}
+		if (!$research->isValid()) {
+			throw new InvalidDataException();
+		}
 
 		$researchRepo = new ResearchRepository();
 		if ($researchRepo->create($research) !== false) {

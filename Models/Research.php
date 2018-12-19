@@ -28,7 +28,7 @@ class Research implements Validator, ArrayAble
 				$this->category = $data->category;
 				$this->results = $data->results;
 			} else {
-				$this->researchId = $data['researchId'];
+				$this->researchId = array_key_exists('researchId', $data) ? $data['researchId'] : 0;
 				$this->professorId = $data['professorId'];
 				$this->name = $data['name'];
 				$this->description = $data['description'];
@@ -43,25 +43,17 @@ class Research implements Validator, ArrayAble
    */
 	public function isValid()
 	{
-//		if (!isset($this->user) || !isset($this->password) || !isset($this->role) || !isset($this->email)) {
-//			return false;
-//		}
-//
-//		if (!is_string($this->user) || strlen($this->password) > 20) {
-//			return false;
-//		}
-//
-//		if (!is_string($this->password) || strlen($this->password) > 20) {
-//			return false;
-//		}
-//
-//		if (!is_string($this->role) || !in_array($this->role, ['prof', 'student'])) {
-//			return false;
-//		}
-//
-//		if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-//			return false;
-//		}
+		if (!isset($this->name) || !isset($this->description) || !isset($this->category) || !isset($this->professorId) || !isset($this->researchId)) {
+			return false;
+		}
+
+		if (!is_string($this->name)) {
+			return false;
+		}
+
+		if (!is_string($this->description)) {
+			return false;
+		}
 
 		return true;
 	}

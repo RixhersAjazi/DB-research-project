@@ -17,7 +17,7 @@ function main($postData)
 
 			if (is_array($research)) {
 				http_response_code(201);
-				$dataObj->createResponse($research);
+				$dataObj->createResponse(['success' => json_encode($research)]);
 			} else {
 				http_response_code(500);
 				$dataObj->createResponse(['error' => 'Could not process this request']);

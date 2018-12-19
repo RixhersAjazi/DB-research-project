@@ -32,7 +32,7 @@ class User implements Validator, ArrayAble
 				$this->password = $data['password'];
 				$this->role = $data['role'];
 				$this->name = $data['name'];
-				$this->id = property_exists($data, 'id') ? $data->id : 0;
+				$this->id = array_key_exists('id', $data) ? $data['id'] : 0;
 				$this->email = $data['email'];
 			}
 		}
